@@ -1,0 +1,5 @@
+# Ignore input file
+synthesis.xml
+
+# Ignore output file
+output.mp3
