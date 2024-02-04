@@ -24,7 +24,7 @@ for opt, arg in opts:
     elif opt in ("-o", "--output"):
         output_file = arg
     elif opt in ("-l", "--language-code"):
-        output_file = arg
+        language_code = arg
 
 directory = os.path.dirname(__file__)
 
