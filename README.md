@@ -6,7 +6,7 @@ Check the [official guide](https://cloud.google.com/text-to-speech/docs/librarie
 updated instructions. As of 2023-11-24 all requirements are specifed in [`requirements.txt`](/requirements.txt):
 
 ```shell
-pip install --upgrade google-cloud-texttospeech
+pip install -r requirements.txt
 ```
 
 # Authentication
