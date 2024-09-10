@@ -15,6 +15,13 @@ You need a Google Cloud project for this to work. The official documentation is 
 
 ### Local development environment
 1. [Install and initialize the gcloud CLI](https://cloud.google.com/sdk/docs/install)
+   
+   1.1. Windows:
+   ```powershell
+   (New-Object Net.WebClient).DownloadFile("https://dl.google.com/dl/cloudsdk/channels/rapid/", "$env:Temp\GoogleCloudSDKInstaller.exe")
+
+   & $env:Temp\GoogleCloudSDKInstaller.exe
+   ```
 2. Create your credential file:
    ```
    gcloud auth application-default login
