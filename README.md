@@ -31,9 +31,15 @@ You can always use `python tts.py -h` to get help about the options available. T
   Default: `output.mp3`
 - `-l`/`--language-code`: the language code of the locale to use for generating the audio.
   Default: `en-US`
+- `-v`/`--voice`: the voice to use for the synthesis (see [available voices](https://cloud.google.com/text-to-speech/docs/voices)).
+  Default: `en-US-Neural2-C`
+- `--pitch`: the pitch to use for the synthesis.
+  Default: `0`
+- `--rate`: the speaking rate to use for the synthesis.
+  Default: `1`
 
 Example:
 ```shell
-python3 tts.py -s data.ssml -o audio.mp3 -l es-ES
+python3 tts.py -s data.ssml -o audio.mp3 -l es-ES -v es-ES-Standard-B
 ```
 _Generates the audio from data.ssml, into audio.mp3, in Spanish from Spain._

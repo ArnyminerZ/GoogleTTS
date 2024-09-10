@@ -4,36 +4,25 @@ Make sure to be working in a virtual environment.
 Note: ssml must be well-formed according to:
     https://www.w3.org/TR/speech-synthesis/
 """
+import argparse
 from google.cloud import texttospeech
 import os
-import sys
-import getopt
 
-input_file: str | None = None
-output_file: str | None = None
-language_code: str | None = None
+parser = argparse.ArgumentParser("tts.py")
+parser.add_argument("-s", "--ssml", dest='ssml', help="The input .ssml file to get the speech data from", action='store', default="synthesis.xml")
+parser.add_argument("-o", "--output", dest='output', help="The output .mp3 file to write the generated audio into", action='store', default="output.mp3")
+parser.add_argument("-l", "--language-code", dest='language_code', help="The language code of the locale to use for generating the audio", action='store', default="en-US")
+parser.add_argument("-v", "--voice", dest='voice', help="The voice to use for the synthesis", action='store', default="en-US-Neural2-C")
+parser.add_argument("--pitch", dest='pitch', help="The pitch to use", action='store', type=float, default="0")
+parser.add_argument("--rate", dest='rate', help="The speaking rate to use.", action='store', type=float, default="1")
+args = parser.parse_args()
 
-# Get all arguments
-opts, args = getopt.getopt(sys.argv, "hs:o:l:", ["ssml=", "output=", "language-code="])
-for opt, arg in opts:
-    if opt == '-h':
-        print('tts.py -s [ssml input file] -o [output mp3 file] -l [language code]')
-        sys.exit()
-    elif opt in ("-s", "--ssml"):
-        input_file = arg
-    elif opt in ("-o", "--output"):
-        output_file = arg
-    elif opt in ("-l", "--language-code"):
-        language_code = arg
-
-directory = os.path.dirname(__file__)
-
-if input_file is None:
-    input_file = os.path.join(directory, "synthesis.xml")
-if output_file is None:
-    output_file = os.path.join(directory, "output.mp3")
-if language_code is None:
-    language_code = "en-US"
+input_file: str = args.ssml
+output_file: str = args.output
+language_code: str = args.language_code
+voice: str = args.voice
+pitch: float = args.pitch
+rate: float = args.rate
 
 # First check if the file exists
 if not os.path.isfile(input_file):
@@ -41,6 +30,8 @@ if not os.path.isfile(input_file):
     exit(1)
 
 print(f"Running voice synthesis for {input_file} in language {language_code}.")
+print(f"Using voice {voice}")
+print(f"Using {pitch} for pitch, and {rate} as speaking rate.")
 print(f"It will be stored in {output_file}")
 
 file = open(input_file, "r")
@@ -56,14 +47,14 @@ synthesis_input = texttospeech.SynthesisInput(ssml=ssml)
 # voice gender ("neutral")
 voice = texttospeech.VoiceSelectionParams(
     language_code=language_code,
-    name="en-US-Neural2-C"
+    name=voice
 )
 
 # Select the type of audio file you want returned
 audio_config = texttospeech.AudioConfig(
     audio_encoding=texttospeech.AudioEncoding.MP3,
-    speaking_rate=1,
-    pitch=0
+    speaking_rate=rate,
+    pitch=pitch
 )
 
 # Perform the text-to-speech request on the text input with the selected
